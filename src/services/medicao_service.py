@@ -11,3 +11,7 @@ class MedicaoService:
     def registrar_medicao(self, medicao: Medicao) -> list[dict[str, Any]] | None:
         response = self.repository.create(medicao)
         return response.data
+    
+    def buscar_medicao(self, medicao: Medicao) -> list[dict[str, Any]] | None:
+        response = self.repository.get_by_dispositivo_id(medicao.dispositivo_id)
+        return response.data
