@@ -36,3 +36,34 @@ async def receber_medicao(dispositivo_id: str, medicao: Medicao):
         dispositivo_id=dispositivo_id,
         data=data,
     )
+
+
+@router.get(
+    "/{dispositivo_id}/medicoes",
+    response_model=MedicaoResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Pega dados de consumo eletrico",
+    description="Endpoint responsavel por pegar medicoes enviadas por dispositivos.",
+    responses={
+        200: {"description": "Medicao encontrada com sucesso"},
+        500: {"description": "Erro ao buscar medicao"},
+    },
+)
+async def buscar_medicao(dispositivo_id: str, medicao: Medicao):
+    service = MedicaoService()
+
+    try:
+        data = service.buscar_medicao(medicao)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro ao buscar medicao.",
+        ) from exc
+
+    return MedicaoResponse(
+        status="sucesso",
+        dispositivo_id=dispositivo_id,
+        data=data,
+    )
+
+

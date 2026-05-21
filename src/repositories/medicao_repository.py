@@ -14,3 +14,10 @@ class MedicaoRepository:
             .insert(medicao.model_dump(mode="json"))
             .execute()
         )
+    def get_by_dispositivo_id(self, dispositivo_id: str):
+        return (
+            self.supabase.table(self.table_name)
+            .select("*")
+            .eq("dispositivo_id", dispositivo_id)
+            .execute()
+        )
