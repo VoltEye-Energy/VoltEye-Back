@@ -157,6 +157,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Vercel local project settings
+.vercel
+
 # Spyder project settings
 .spyderproject
 .spyproject
