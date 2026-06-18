@@ -16,3 +16,6 @@ class MedicaoResponse(BaseModel):
     status: str
     device_key: str
     data: list[dict[str, Any]] | None = None
+
+class GetMedicaoResponse(BaseModel):
+    data: list[dict[str, Any]] | None = None

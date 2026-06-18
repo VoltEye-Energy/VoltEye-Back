@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
+from realtime import List
 
-from src.schemas.medicao_schema import Medicao, MedicaoResponse
+from src.schemas.medicao_schema import GetMedicaoResponse, Medicao, MedicaoResponse
 from src.services.devices_service import DevicesService
 from src.services.medicao_service import MedicaoService
 
@@ -44,7 +45,7 @@ async def receber_medicao( medicao: Medicao):
 
 @router.get(
     "/devices/{dispositivo_id}/current",
-    response_model=MedicaoResponse,
+    response_model=GetMedicaoResponse,
     status_code=status.HTTP_200_OK,
     summary="Pega dados de consumo eletrico",
     description="Endpoint responsavel por pegar medicoes enviadas por dispositivos.",
@@ -70,15 +71,11 @@ async def buscar_consumo_atual(dispositivo_id: str):
             detail="Erro ao buscar consumo total.",
         ) from exc
 
-    return MedicaoResponse(
-        status="sucesso",
-        dispositivo_id=dispositivo_id,
-        data=data,
-    )
+    return GetMedicaoResponse(data=data)
 
 @router.get(
     "/devices/{dispositivo_id}/readings",
-    response_model=MedicaoResponse,
+    response_model=GetMedicaoResponse,
     status_code=status.HTTP_200_OK,
     summary="Pega dados de consumo eletrico",
     description="Endpoint responsavel por pegar medicoes enviadas por dispositivos em um determinado período.",
@@ -105,16 +102,13 @@ async def buscar_consumo_por_datas(dispositivo_id: str, dateFrom: str, dateTo: s
             detail="Erro ao buscar consumo por datas.",
         ) from exc
 
-    return MedicaoResponse(
-        status="sucesso",
-        dispositivo_id=dispositivo_id,
-        data=data,
-    )
+    return GetMedicaoResponse(data=data)
+    
 
 
 @router.get(
     "/devices/{dispositivo_id}/summary/day",
-    response_model=MedicaoResponse,
+    response_model=GetMedicaoResponse,
     status_code=status.HTTP_200_OK,
     summary="Pega dados de consumo eletrico",
     description="Endpoint responsavel por pegar resumos de consumo por dia.",
@@ -141,16 +135,12 @@ async def buscar_consumo_por_dia(dispositivo_id: str, date: str):
             detail="Erro ao buscar consumo por dia.",
         ) from exc
 
-    return MedicaoResponse(
-        status="sucesso",
-        dispositivo_id=dispositivo_id,
-        data=data,
-    )
+    return GetMedicaoResponse(data=data)
 
 
 @router.get(
     "/devices/{dispositivo_id}/summary/month",
-    response_model=MedicaoResponse,
+    response_model=GetMedicaoResponse,
     status_code=status.HTTP_200_OK,
     summary="Pega dados de consumo eletrico",
     description="Endpoint responsavel por pegar resumos de consumo por mes.",
@@ -177,16 +167,12 @@ async def buscar_consumo_por_mes(dispositivo_id: str, month: int, year: int):
             detail="Erro ao buscar consumo por mes.",
         ) from exc
 
-    return MedicaoResponse(
-        status="sucesso",
-        dispositivo_id=dispositivo_id,
-        data=data,
-    )
+    return GetMedicaoResponse(data=data)
 
 
 @router.get(
     "/devices/{dispositivo_id}/summary/year",
-    response_model=MedicaoResponse,
+    response_model=GetMedicaoResponse,
     status_code=status.HTTP_200_OK,
     summary="Pega dados de consumo eletrico",
     description="Endpoint responsavel por pegar resumos de consumo por ano.",
@@ -213,10 +199,7 @@ async def buscar_consumo_por_ano(dispositivo_id: str, year: int):
             detail="Erro ao buscar consumo por ano.",
         ) from exc
 
-    return MedicaoResponse(
-        status="sucesso",
-        dispositivo_id=dispositivo_id,
-        data=data,
-    )
+    return GetMedicaoResponse(data=data)    
+
 
 

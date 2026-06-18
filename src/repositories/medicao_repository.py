@@ -28,8 +28,8 @@ class MedicaoRepository:
     def get_consumed_total(self, dispositivo_id: str):
         return (
             self.supabase.table(self.table_name)
-            .select("consumo")
-            .eq("dispositivo_id", dispositivo_id)
+            .select("*")
+            .eq("device_key", dispositivo_id)
             .limit(10)
             .execute()
         )
@@ -40,8 +40,8 @@ class MedicaoRepository:
 
         return (
             self.supabase.table(self.table_name)
-            .select("consumo")
-            .eq("dispositivo_id", dispositivo_id)
+            .select("*")
+            .eq("device_key", dispositivo_id)
             .gte("date", dateFrom)
             .lte("date", dateTo)
             .execute()
@@ -50,8 +50,8 @@ class MedicaoRepository:
     def get_consumed_by_day(self, dispositivo_id: str, date: str):
         return (
             self.supabase.table(self.table_name)
-            .select("consumo")
-            .eq("dispositivo_id", dispositivo_id)
+            .select("*")
+            .eq("device_key", dispositivo_id)
             .eq("date", date)
             .execute()
         )
@@ -59,8 +59,8 @@ class MedicaoRepository:
     def get_consumed_by_month(self, dispositivo_id: str, month: int, year: int):
         return (
             self.supabase.table(self.table_name)
-            .select("consumo")
-            .eq("dispositivo_id", dispositivo_id)
+            .select("*")
+            .eq("device_key", dispositivo_id)
             .eq("month", month)
             .eq("year", year)
             .execute()
@@ -69,8 +69,8 @@ class MedicaoRepository:
     def get_consumed_by_year(self, dispositivo_id: str, year: int):
         return (
             self.supabase.table(self.table_name)
-            .select("consumo")
-            .eq("dispositivo_id", dispositivo_id)
+            .select("*")
+            .eq("device_key", dispositivo_id)
             .eq("year", year)
             .execute()
         )
