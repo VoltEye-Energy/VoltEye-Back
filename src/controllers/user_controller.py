@@ -1,9 +1,10 @@
 from fastapi import APIRouter, HTTPException, status
 
-from services.user_service import UserService
-from src.schemas.user_schema import UserResponse, userCreate
+from src.services.user_service import UserService
+from src.schemas.user_schema import UserResponse, UserCreate
+
 router = APIRouter(
-    prefix="/",
+    prefix="/users",
     tags=["Users"],
 )
 
@@ -19,7 +20,7 @@ router = APIRouter(
         500: {"description": "Erro ao criar usuário"},
     },
 )
-async def create_user(user_data: userCreate):
+async def create_user(user_data: UserCreate):
     service = UserService()
 
     try:
