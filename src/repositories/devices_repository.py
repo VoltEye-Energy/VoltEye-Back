@@ -1,3 +1,7 @@
+from src.bd.connect import connect
+from src.schemas.devices_schema import Device
+
+
 class DevicesRepository:
 
     table_name = "teste_devices"
@@ -16,7 +20,7 @@ class DevicesRepository:
         return (
             self.supabase.table(self.table_name)
             .select("*")
-            .eq("id", device_id)
+            .eq("device_key", device_id)
             .execute()
         )
     
