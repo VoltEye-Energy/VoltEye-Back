@@ -2,7 +2,6 @@
 
 from supabase_auth import BaseModel, Optional, datetime
 
-
 class Device(BaseModel):
     id: str
     device_key: str

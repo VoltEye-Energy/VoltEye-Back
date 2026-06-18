@@ -10,3 +10,5 @@ class DevicesService:
     def get_device_by_key(self, device_key: str):
         return self.devices_repository.get_device_by_key(device_key)
     
+    def verify_device_key(self, device_key: str):
+        return self.devices_repository.verify_device_key(device_key)
