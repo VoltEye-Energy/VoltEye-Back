@@ -9,6 +9,13 @@ class DevicesRepository:
     def __init__(self):
         self.supabase = connect()
 
+    def get_all_devices(self):
+        return (
+            self.supabase.table(self.table_name)
+            .select("*")
+            .execute()
+        )
+
     def create_device(self, device: Device):
         return (
             self.supabase.table(self.table_name)
@@ -29,5 +36,13 @@ class DevicesRepository:
             self.supabase.table(self.table_name)
             .select("*")
             .eq("device_key", device_key)
+            .execute()
+        )
+    
+    def update_tariff(self, device_id: str, tariff: float):
+        return (
+            self.supabase.table(self.table_name)
+            .update({"tariff": tariff})
+            .eq("device_key", device_id)
             .execute()
         )

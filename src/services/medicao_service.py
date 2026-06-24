@@ -36,3 +36,57 @@ class MedicaoService:
         response = self.repository.get_consumed_by_year(dispositivo_id, year)
         return response.data
     
+    def buscar_dados_grafico(self, dispositivo_id: str, dateFrom: str, dateTo: str = None):
+        response = self.repository.get_consumed_by_dates(dispositivo_id, dateFrom, dateTo)
+
+        data = response.data
+
+        points = []
+
+        for item in data:
+            points.append({
+                "label": str(item["timestamp"]),
+                "value": item["potencia"]
+            })
+
+        return points
+    
+    def buscar_ultima_medicao(self, device_id: str):
+        response = (
+            self.repository.supabase
+            .table(self.repository.table_name)
+            .select("*")
+            .eq("device_key", device_id)
+            .order("timestamp", desc=True)
+            .limit(1)
+            .execute()
+        )
+
+        if not response.data:
+            return None
+
+        return response.data[0]["timestamp"]
+    
+    def gerar_insights(self, device_id: str):
+        response = self.repository.get_consumed_total(device_id)
+
+        data = response.data or []
+
+        if not data:
+            return [{"message": "Sem dados suficientes"}]
+
+        potencia_media = sum(row["potencia"] for row in data) / len(data)
+
+        insights = []
+
+        if potencia_media > 1000:
+            insights.append({"message": "Consumo elevado detectado."})
+
+        if potencia_media < 100:
+            insights.append({"message": "Consumo baixo detectado."})
+
+        insights.append({
+            "message": f"Potência média: {potencia_media:.2f} W"
+        })
+
+        return insights

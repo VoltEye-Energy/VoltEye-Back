@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, status
-from realtime import List
 
 from src.schemas.medicao_schema import GetMedicaoResponse, Medicao, MedicaoResponse
 from src.services.devices_service import DevicesService
@@ -200,6 +199,3 @@ async def buscar_consumo_por_ano(dispositivo_id: str, year: int):
         ) from exc
 
     return GetMedicaoResponse(data=data)    
-
-
-
